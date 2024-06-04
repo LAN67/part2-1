@@ -7,6 +7,7 @@ import java.util.*;
 
 
 public class Account {
+
     @Getter
     private String name;
 
