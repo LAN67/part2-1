@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 
-public class Account implements Cloneable {
+public class Account {
     @Getter
     private String name;
 
