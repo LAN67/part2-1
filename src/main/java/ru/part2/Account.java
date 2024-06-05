@@ -72,46 +72,7 @@ public class Account {
 
     public AccountSave save() {
         return new AccSave();
-//        List<StackNode> listSave = new ArrayList<>();
-//
-//        Class thisClass = this.getClass();
-//        for (Field f : thisClass.getDeclaredFields()) {
-//            if (!f.getName().equals("undoStack")) {
-//                try {
-//                    if (f.getName().equals("balances")) {
-//                        balances.forEach((x, y) -> listSave.add(new StackNode(f.getName(), x.getCurrency(), y)));
-//                    } else {
-//                        listSave.add(new StackNode(f.getName(), null, f.get(this)));
-//                    }
-//                } catch (IllegalAccessException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }
-//        return new AccountSave(listSave);
     }
-
-//    public void load(AccountSave listSave) {
-//        balances.clear();
-//        for (StackNode sn : listSave.getListSave()) {
-//            if (sn.getName().equals("balances")) {
-//                CurrencySumma cur = new CurrencySumma(sn.getCurrency());
-//                balances.put(cur, (Integer) sn.getValue());
-//            } else {
-//                Class thisClass = this.getClass();
-//                for (Field f : thisClass.getDeclaredFields()) {
-//                    if (f.getName().equals(sn.getName())) {
-//                        try {
-//                            f.setAccessible(true);
-//                            f.set(this, sn.getValue());
-//                        } catch (IllegalAccessException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private class AccSave implements AccountSave {
         private String name = Account.this.name;
