@@ -26,6 +26,10 @@ public class Main {
         acc.addSumma(60, CurrencySumma.EnumCurrency.CNY);
         System.out.println(acc);
 
+        acc.setName("Max");
+        System.out.println(acc);
+
+        System.out.println("");
         System.out.println("=== balances");
         Map<CurrencySumma, Integer> balances = new HashMap<>();
         balances = acc.getBalances();
@@ -39,12 +43,27 @@ public class Main {
         System.out.println(acc);
 
 
+        System.out.println("");
         System.out.println("=== undo");
         System.out.println(acc);
+        acc.addSumma(1000, CurrencySumma.EnumCurrency.CNY);
+        System.out.println(acc);
         acc.setName("Alex");
+        System.out.println(acc);
         acc.setName("Alex2");
+        System.out.println(acc);
         acc.setName("Alex3");
         System.out.println(acc);
+        System.out.println("undo");
+        acc.undo();
+        System.out.println(acc);
+        System.out.println("undo");
+        acc.undo();
+        System.out.println(acc);
+        System.out.println("undo");
+        acc.undo();
+        System.out.println(acc);
+        System.out.println("undo");
         acc.undo();
         System.out.println(acc);
         acc.undo();
@@ -53,7 +72,22 @@ public class Main {
         System.out.println(acc);
         acc.undo();
         System.out.println(acc);
+        acc.undo();
+        System.out.println(acc);
+        acc.undo();
+        System.out.println(acc);
+        acc.undo();
+        System.out.println(acc);
+        acc.undo();
+        System.out.println(acc);
+        try {
+            acc.undo();
+            System.out.println(acc);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
+        System.out.println("");
         System.out.println("=== save load");
         Account acc2 = new Account("Sasha");
         acc2.addSumma(100, CurrencySumma.EnumCurrency.RUB);
@@ -70,7 +104,7 @@ public class Main {
         System.out.println(acc2);
 
         System.out.println("load Account");
-        acc2.load(accSave);
+        accSave.load();
         System.out.println(acc2);
     }
 }

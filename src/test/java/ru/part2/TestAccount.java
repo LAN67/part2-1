@@ -17,6 +17,7 @@ public class TestAccount {
         acc1.setName("Petr");
         Assertions.assertEquals("Petr", acc1.getName());
     }
+
     @Test
     @DisplayName("Не корректное имя")
     public void TestNameException(){
@@ -26,6 +27,18 @@ public class TestAccount {
         Account acc4 = new Account("Ivan");
         Assertions.assertThrows(AccountException.class,(() -> acc4.setName(null)));
         Assertions.assertThrows(AccountException.class,(() -> acc4.setName("")));
+    }
+
+    @Test
+    @DisplayName("проверка getSumma")
+    public void TestGetSummma() {
+        Account acc = new Account("Ivan");
+        acc.addSumma(10, CurrencySumma.EnumCurrency.RUB);
+        Assertions.assertEquals(10, acc.getSumma(CurrencySumma.EnumCurrency.RUB));
+
+        Integer num = acc.getSumma(CurrencySumma.EnumCurrency.RUB);
+        num = 2048;
+        Assertions.assertEquals(10, acc.getSumma(CurrencySumma.EnumCurrency.RUB));
     }
 
     @Test
@@ -42,6 +55,29 @@ public class TestAccount {
 
         acc.addSumma(30, CurrencySumma.EnumCurrency.CNY);
         Assertions.assertEquals(30, acc.getSumma(CurrencySumma.EnumCurrency.CNY));
+
+        acc.addSumma(40, CurrencySumma.EnumCurrency.USD);
+        acc.addSumma(50, CurrencySumma.EnumCurrency.EUR);
+
+        Assertions.assertEquals(20, acc.getSumma(CurrencySumma.EnumCurrency.RUB));
+        Assertions.assertEquals(30, acc.getSumma(CurrencySumma.EnumCurrency.CNY));
+        Assertions.assertEquals(40, acc.getSumma(CurrencySumma.EnumCurrency.USD));
+        Assertions.assertEquals(50, acc.getSumma(CurrencySumma.EnumCurrency.EUR));
+    }
+
+    @Test
+    @DisplayName("проверка getBalances")
+    public void TestGetBalance(){
+        Account acc = new Account("Ivan");
+        acc.addSumma(2000, CurrencySumma.EnumCurrency.RUB);
+        acc.addSumma(3000, CurrencySumma.EnumCurrency.USD);
+        acc.addSumma(4000, CurrencySumma.EnumCurrency.CNY);
+
+        Map<CurrencySumma, Integer> balances = new HashMap<>();
+        balances = acc.getBalances();
+        CurrencySumma cur = new CurrencySumma(CurrencySumma.EnumCurrency.RUB);
+        balances.put(cur, 1024);
+        Assertions.assertEquals(2000, acc.getSumma(CurrencySumma.EnumCurrency.RUB));
     }
 
     @Test
@@ -77,21 +113,6 @@ public class TestAccount {
     }
 
     @Test
-    @DisplayName("проверка getBalances")
-    public void TestGetBalance(){
-        Account acc = new Account("Ivan");
-        acc.addSumma(2000, CurrencySumma.EnumCurrency.RUB);
-        acc.addSumma(3000, CurrencySumma.EnumCurrency.USD);
-        acc.addSumma(4000, CurrencySumma.EnumCurrency.CNY);
-
-        Map<CurrencySumma, Integer> balances = new HashMap<>();
-        balances = acc.getBalances();
-        CurrencySumma cur = new CurrencySumma(CurrencySumma.EnumCurrency.RUB);
-        balances.put(cur, 1024);
-        Assertions.assertEquals(2000, acc.getSumma(CurrencySumma.EnumCurrency.RUB));
-    }
-
-    @Test
     @DisplayName("проверка Save")
     public void TestSave(){
         Account acc = new Account("Ivan");
@@ -100,14 +121,17 @@ public class TestAccount {
         acc.addSumma(4000, CurrencySumma.EnumCurrency.CNY);
 
         AccountSave accSave = acc.save();
-        List<StackNode> listSN = accSave.getListSave();
-        listSN.add(new StackNode("balances", CurrencySumma.EnumCurrency.EUR, 123));
 
-
+        acc.setName("Max");
+        Assertions.assertEquals("Max", acc.getName());
         acc.addSumma(1024, CurrencySumma.EnumCurrency.USD);
-        acc.load(accSave);
+        Assertions.assertEquals(1024, acc.getSumma(CurrencySumma.EnumCurrency.USD));
 
+        accSave.load();
+
+        Assertions.assertEquals(2000, acc.getSumma(CurrencySumma.EnumCurrency.RUB));
         Assertions.assertEquals(3000, acc.getSumma(CurrencySumma.EnumCurrency.USD));
+        Assertions.assertEquals(4000, acc.getSumma(CurrencySumma.EnumCurrency.CNY));
         Assertions.assertEquals(null, acc.getSumma(CurrencySumma.EnumCurrency.EUR));
     }
 }
